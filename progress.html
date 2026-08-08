@@ -1,245 +1,707 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Progress — Project Laptop</title>
+```
+<meta charset="UTF-8">
 
-    <meta
-        name="description"
-        content="Follow the progress of Project Laptop."
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <link rel="stylesheet" href="style.css">
+<title>Progress — Project Laptop</title>
+
+<meta
+    name="description"
+    content="Follow the progress of Project Laptop."
+>
+
+<link rel="stylesheet" href="./style.css">
+```
+
 </head>
 
 <body>
 
-    <header class="page-header">
+<header class="page-header">
 
-        <nav class="navbar">
+```
+<nav class="navbar">
 
-            <a href="index.html" class="logo">
-                PROJECT LAPTOP
-            </a>
+    <a href="./index.html" class="logo">
+        PROJECT LAPTOP
+    </a>
 
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="progress.html">Progress</a>
-                <a href="brands.html">For Brands</a>
-            </div>
+    <div class="nav-links">
 
-        </nav>
+        <a href="./index.html">
+            Home
+        </a>
 
-        <div class="page-hero">
+        <a href="./progress.html" class="active">
+            Progress
+        </a>
 
-            <p class="eyebrow">THE JOURNEY</p>
+        <a href="./brands.html">
+            For Brands
+        </a>
 
-            <h1>
-                Progress<br>
-                so far.
-            </h1>
+    </div>
 
-            <p class="hero-text">
-                Every contact, response and collaboration becomes
-                part of the experiment.
-            </p>
+</nav>
+
+
+<div class="page-hero">
+
+    <p class="eyebrow">
+        THE JOURNEY
+    </p>
+
+    <h1>
+        Progress<br>
+        so far.
+    </h1>
+
+    <p class="hero-text">
+        Every contact, response and collaboration becomes
+        part of the experiment.
+    </p>
+
+</div>
+```
+
+</header>
+
+<main>
+
+```
+<!-- STATS -->
+
+<section class="section">
+
+    <div class="section-title">
+        <span>01</span>
+        <h2>Current Status</h2>
+    </div>
+
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <strong id="tracked">
+                0
+            </strong>
+
+            <span>
+                Brands Tracked
+            </span>
 
         </div>
 
-    </header>
 
+        <div class="stat">
 
-    <main>
+            <strong id="responses">
+                0
+            </strong>
 
-        <!-- STATS -->
+            <span>
+                Responses
+            </span>
 
-        <section class="section">
-
-            <div class="section-title">
-                <span>01</span>
-                <h2>Current Status</h2>
-            </div>
-
-            <div class="stats">
-
-                <div class="stat">
-                    <strong id="brands">0</strong>
-<span>Brands Contacted</span>
-                </div>
-
-                <div class="stat">
-                    <strong id="responses">0</strong>
-<span>Responses</span>
-                </div>
-
-                <div class="stat">
-                    <strong>0</strong>
-                    <span>Interested</span>
-                </div>
-
-                <div class="stat">
-                    <strong id="collaborations">0</strong>
-<span>Collaborations</span>
-                </div>
-
-                <div class="stat">
-                    <strong id="laptops">0</strong>
-<span>Laptops Received</span>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- COMPANIES -->
-
-        <section class="section">
-
-            <div class="section-title">
-                <span>02</span>
-                <h2>Companies</h2>
-            </div>
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>Company</th>
-                            <th>Category</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="companies">
-
-    <tr>
-        <td colspan="4">Loading...</td>
-    </tr>
-
-</tbody>
-
-                </table>
-
-            </div>
-
-        </section>
-
-
-        <!-- TIMELINE -->
-
-        <section class="section">
-
-            <div class="section-title">
-                <span>03</span>
-                <h2>Timeline</h2>
-            </div>
-
-            <div class="timeline">
-
-                <div class="timeline-item">
-
-                    <span>01</span>
-
-                    <div>
-                        <h3>Project Created</h3>
-                        <p>
-                            Project Laptop officially begins.
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="timeline-item">
-
-                    <span>02</span>
-
-                    <div>
-                        <h3>Website Launched</h3>
-                        <p>
-                            The public project website goes live.
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="timeline-item">
-
-                    <span>03</span>
-
-                    <div>
-                        <h3>First Brands Contacted</h3>
-                        <p>
-                            The first collaboration requests are sent.
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="timeline-item">
-
-                    <span>04</span>
-
-                    <div>
-                        <h3>First Response</h3>
-                        <p>
-                            Waiting for the first company response.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- TRANSPARENCY -->
-
-        <section class="section about">
-
-            <div class="section-title">
-                <span>04</span>
-                <h2>Transparency</h2>
-            </div>
-
-            <p>
-                Project Laptop is designed to document the real process,
-                not just the successful outcome.
-            </p>
-
-            <p>
-                Companies may say yes. They may say no. Some may never
-                respond. All of those outcomes are part of the experiment.
-            </p>
-
-        </section>
-
-    </main>
-
-
-    <footer>
-
-        <p>PROJECT LAPTOP</p>
-
-        <div class="footer-links">
-            <a href="index.html">Home</a>
-            <a href="progress.html">Progress</a>
-            <a href="brands.html">For Brands</a>
         </div>
 
-    </footer>
 
-<script src="script.js"></script>
+        <div class="stat">
+
+            <strong id="interested">
+                0
+            </strong>
+
+            <span>
+                Interested
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <strong id="collaborations">
+                0
+            </strong>
+
+            <span>
+                Collaborations
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <strong id="laptops">
+                0
+            </strong>
+
+            <span>
+                Laptops Received
+            </span>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- COMPANIES -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <span>02</span>
+
+        <h2>
+            Companies
+        </h2>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Company
+                    </th>
+
+                    <th>
+                        Category
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="companies">
+
+                <tr>
+
+                    <td colspan="4">
+                        Loading companies...
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- TIMELINE -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <span>03</span>
+
+        <h2>
+            Timeline
+        </h2>
+
+    </div>
+
+
+    <div class="timeline">
+
+
+        <div class="timeline-item">
+
+            <span>
+                01
+            </span>
+
+            <div>
+
+                <h3>
+                    Project Created
+                </h3>
+
+                <p>
+                    Project Laptop officially begins.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="timeline-item">
+
+            <span>
+                02
+            </span>
+
+            <div>
+
+                <h3>
+                    Website Launched
+                </h3>
+
+                <p>
+                    The public project website goes live.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="timeline-item">
+
+            <span>
+                03
+            </span>
+
+            <div>
+
+                <h3>
+                    First Brands Added
+                </h3>
+
+                <p>
+                    Companies begin entering the Project Laptop database.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="timeline-item">
+
+            <span>
+                04
+            </span>
+
+            <div>
+
+                <h3>
+                    First Contact
+                </h3>
+
+                <p>
+                    Waiting for the first collaboration request to be sent.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- TRANSPARENCY -->
+
+<section class="section about">
+
+    <div class="section-title">
+
+        <span>
+            04
+        </span>
+
+        <h2>
+            Transparency
+        </h2>
+
+    </div>
+
+
+    <p>
+        Project Laptop is designed to document the real process,
+        not just the successful outcome.
+    </p>
+
+
+    <p>
+        Companies may say yes. They may say no. Some may never
+        respond. All of those outcomes are part of the experiment.
+    </p>
+
+</section>
+```
+
+</main>
+
+<footer>
+
+```
+<p>
+    PROJECT LAPTOP
+</p>
+
+
+<div class="footer-links">
+
+    <a href="./index.html">
+        Home
+    </a>
+
+    <a href="./progress.html">
+        Progress
+    </a>
+
+    <a href="./brands.html">
+        For Brands
+    </a>
+
+</div>
+```
+
+</footer>
+
+<script>
+
+const API_URL =
+    "https://script.google.com/macros/s/AKfycbw3gZNMMj9qeFEXac0_-r8hmn9Te3vsaESGtIxWgH_4dNoDGAL5wCtHAOjmdlBeBOXR/exec";
+
+
+async function loadProgress() {
+
+    const companiesElement =
+        document.getElementById("companies");
+
+
+    try {
+
+        const response =
+            await fetch(API_URL, {
+                method: "GET",
+                cache: "no-store"
+            });
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "API returned HTTP " + response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Project Laptop API:",
+            data
+        );
+
+
+        if (!Array.isArray(data)) {
+
+            throw new Error(
+                "API did not return an array."
+            );
+
+        }
+
+
+        /*
+         * ============================
+         * STATISTICS
+         * ============================
+         */
+
+
+        const tracked =
+            data.length;
+
+
+        const contacted =
+            data.filter(company =>
+                [
+                    "SENT",
+                    "FOLLOW_UP",
+                    "REPLIED",
+                    "INTERESTED",
+                    "COLLABORATION",
+                    "CLOSED"
+                ].includes(
+                    String(company.status || "").toUpperCase()
+                )
+            ).length;
+
+
+        const responses =
+            data.filter(company =>
+                [
+                    "REPLIED",
+                    "INTERESTED",
+                    "COLLABORATION",
+                    "CLOSED"
+                ].includes(
+                    String(company.status || "").toUpperCase()
+                )
+            ).length;
+
+
+        const interested =
+            data.filter(company =>
+                String(company.status || "").toUpperCase()
+                === "INTERESTED"
+            ).length;
+
+
+        const collaborations =
+            data.filter(company =>
+                String(company.status || "").toUpperCase()
+                === "COLLABORATION"
+            ).length;
+
+
+        const laptops =
+            data.filter(company =>
+                String(company.status || "").toUpperCase()
+                === "LAPTOP_RECEIVED"
+            ).length;
+
+
+
+        /*
+         * ============================
+         * UPDATE STATISTICS
+         * ============================
+         */
+
+
+        document.getElementById("tracked")
+            .textContent = tracked;
+
+
+        document.getElementById("responses")
+            .textContent = responses;
+
+
+        document.getElementById("interested")
+            .textContent = interested;
+
+
+        document.getElementById("collaborations")
+            .textContent = collaborations;
+
+
+        document.getElementById("laptops")
+            .textContent = laptops;
+
+
+
+        /*
+         * ============================
+         * COMPANY TABLE
+         * ============================
+         */
+
+
+        companiesElement.innerHTML = "";
+
+
+        if (data.length === 0) {
+
+            companiesElement.innerHTML = `
+                <tr>
+                    <td colspan="4">
+                        No companies added yet.
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        data.forEach(company => {
+
+            const row =
+                document.createElement("tr");
+
+
+            const companyName =
+                company.company || "—";
+
+
+            const category =
+                company.category || "—";
+
+
+            const status =
+                company.status || "—";
+
+
+            const date =
+                company.dateSent &&
+                company.dateSent !== "—"
+                    ? company.dateSent
+                    : company.dateAdded || "—";
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHTML(companyName)}
+                </td>
+
+                <td>
+                    ${escapeHTML(category)}
+                </td>
+
+                <td>
+                    ${escapeHTML(status)}
+                </td>
+
+                <td>
+                    ${escapeHTML(formatDate(date))}
+                </td>
+
+            `;
+
+
+            companiesElement.appendChild(row);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Project Laptop API error:",
+            error
+        );
+
+
+        companiesElement.innerHTML = `
+
+            <tr>
+
+                <td colspan="4">
+
+                    Unable to load project data.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+
+/*
+ * Prevent HTML injection from Sheet data.
+ */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/*
+ * Format ISO dates.
+ */
+
+function formatDate(value) {
+
+    if (!value || value === "—") {
+
+        return "—";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (Number.isNaN(date.getTime())) {
+
+        return value;
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-GB",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/*
+ * Load data when page opens.
+ */
+
+loadProgress();
+
+</script>
+
 </body>
+
 </html>
