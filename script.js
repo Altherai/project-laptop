@@ -1,30 +1,154 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbw3gZNMMj9qeFEXac0_-r8hmn9Te3vsaESGtIxWgH_4dNoDGAL5wCtHAOjmdlBeBOXR/exec";
+/* =========================================
+   PROJECT LAPTOP
+   LIVE DATA
+========================================= */
+
+const API_URL =
+    "https://script.google.com/macros/s/AKfycbw3gZNMMj9qeFEXac0_-r8hmn9Te3vsaESGtIxWgH_4dNoDGAL5wCtHAOjmdlBeBOXR/exec";
 
 
 /* =========================================
-   LOAD COMPANY DATA
+   HELPERS
+========================================= */
+
+function getElement(id) {
+    return document.getElementById(id);
+}
+
+
+function formatDate(value) {
+
+    if (!value || value === "—") {
+        return "—";
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return value;
+    }
+
+    return date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+    });
+
+}
+
+
+function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+function getStatusClass(status) {
+
+    const normalized =
+        String(status || "")
+            .toUpperCase()
+            .replaceAll(" ", "_");
+
+    return normalized.toLowerCase();
+
+}
+
+
+function renderStatus(status) {
+
+    const safeStatus =
+        escapeHTML(status || "UNKNOWN");
+
+    const statusClass =
+        getStatusClass(status);
+
+    return `
+        <span class="status-pill status-${statusClass}">
+            <span class="status-dot"></span>
+            ${safeStatus}
+        </span>
+    `;
+
+}
+
+
+/* =========================================
+   LOAD DATA
 ========================================= */
 
 async function loadCompanies() {
 
+    console.log("Project Laptop: loading data...");
+
     try {
 
-        const response = await fetch(API_URL);
+        const url =
+            `${API_URL}?t=${Date.now()}`;
+
+        const response =
+            await fetch(url, {
+                method: "GET",
+                cache: "no-store"
+            });
+
+        console.log(
+            "Project Laptop: API response",
+            response.status
+        );
+
 
         if (!response.ok) {
-            throw new Error("Could not load company data.");
+            throw new Error(
+                `API returned HTTP ${response.status}`
+            );
         }
 
-        const companies = await response.json();
+
+        const companies =
+            await response.json();
+
+
+        if (!Array.isArray(companies)) {
+            throw new Error(
+                "API did not return an array."
+            );
+        }
+
+
+        console.log(
+            "Project Laptop: data loaded",
+            companies
+        );
+
 
         updateStatistics(companies);
+
         updateCompanyTable(companies);
 
-        console.log("Project Laptop data loaded:", companies);
 
     } catch (error) {
 
-        console.error("Project Laptop:", error);
+        console.error(
+            "Project Laptop API error:",
+            error
+        );
+
+        showLoadError();
 
     }
 
@@ -32,76 +156,94 @@ async function loadCompanies() {
 
 
 /* =========================================
-   UPDATE PUBLIC STATISTICS
+   STATISTICS
 ========================================= */
 
 function updateStatistics(companies) {
 
-    const brands = companies.length;
-
-    const responses = companies.filter(company =>
-        [
-            "REPLIED",
-            "INTERESTED",
-            "DECLINED",
-            "CLOSED"
-        ].includes(company.status)
-    ).length;
-
-    const interested = companies.filter(company =>
-        company.status === "INTERESTED"
-    ).length;
-
-    const collaborations = companies.filter(company =>
-        company.status === "CLOSED"
-    ).length;
-
-    const laptops = companies.filter(company =>
-        company.status === "LAPTOP_RECEIVED"
-    ).length;
+    const brands =
+        companies.length;
 
 
-    const brandsElement = document.getElementById("brands");
-    const responsesElement = document.getElementById("responses");
-    const interestedElement = document.getElementById("interested");
-    const collaborationsElement = document.getElementById("collaborations");
-    const laptopsElement = document.getElementById("laptops");
+    const responses =
+        companies.filter(company =>
+            [
+                "REPLIED",
+                "INTERESTED",
+                "DECLINED",
+                "CLOSED"
+            ].includes(
+                String(company.status || "")
+                    .toUpperCase()
+            )
+        ).length;
 
 
-    if (brandsElement) {
-        brandsElement.textContent = brands;
-    }
+    const interested =
+        companies.filter(company =>
+            String(company.status || "")
+                .toUpperCase() === "INTERESTED"
+        ).length;
 
-    if (responsesElement) {
-        responsesElement.textContent = responses;
-    }
 
-    if (interestedElement) {
-        interestedElement.textContent = interested;
-    }
+    const collaborations =
+        companies.filter(company =>
+            [
+                "CLOSED",
+                "COLLABORATION"
+            ].includes(
+                String(company.status || "")
+                    .toUpperCase()
+            )
+        ).length;
 
-    if (collaborationsElement) {
-        collaborationsElement.textContent = collaborations;
-    }
 
-    if (laptopsElement) {
-        laptopsElement.textContent = laptops;
-    }
+    const laptops =
+        companies.filter(company =>
+            String(company.status || "")
+                .toUpperCase() === "LAPTOP_RECEIVED"
+        ).length;
+
+
+    const values = {
+        brands,
+        responses,
+        interested,
+        collaborations,
+        laptops
+    };
+
+
+    Object.entries(values).forEach(
+        ([id, value]) => {
+
+            const element =
+                getElement(id);
+
+            if (element) {
+                element.textContent = value;
+            }
+
+        }
+    );
 
 }
 
 
 /* =========================================
-   UPDATE COMPANY TABLE
+   COMPANY TABLE
 ========================================= */
 
 function updateCompanyTable(companies) {
 
-    const table = document.getElementById("companies");
+    const table =
+        getElement("companies");
+
 
     if (!table) {
         return;
     }
+
 
     table.innerHTML = "";
 
@@ -110,8 +252,8 @@ function updateCompanyTable(companies) {
 
         table.innerHTML = `
             <tr>
-                <td colspan="4">
-                    The experiment hasn't started yet.
+                <td colspan="4" class="loading">
+                    No companies have been added yet.
                 </td>
             </tr>
         `;
@@ -122,14 +264,40 @@ function updateCompanyTable(companies) {
 
     companies.forEach(company => {
 
-        const row = document.createElement("tr");
+        const row =
+            document.createElement("tr");
+
+
+        const companyName =
+            escapeHTML(company.company || "—");
+
+
+        const category =
+            escapeHTML(company.category || "—");
+
+
+        const date =
+            formatDate(company.dateSent);
+
 
         row.innerHTML = `
-            <td>${company.company || "—"}</td>
-            <td>${company.category || "—"}</td>
-            <td>${company.status || "—"}</td>
-            <td>${company.dateSent || "—"}</td>
+            <td>
+                <strong>${companyName}</strong>
+            </td>
+
+            <td>
+                ${category}
+            </td>
+
+            <td>
+                ${renderStatus(company.status)}
+            </td>
+
+            <td>
+                ${escapeHTML(date)}
+            </td>
         `;
+
 
         table.appendChild(row);
 
@@ -139,7 +307,37 @@ function updateCompanyTable(companies) {
 
 
 /* =========================================
+   ERROR STATE
+========================================= */
+
+function showLoadError() {
+
+    const table =
+        getElement("companies");
+
+
+    if (!table) {
+        return;
+    }
+
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="4" class="loading">
+                Project data is temporarily unavailable.
+                Please try again in a moment.
+            </td>
+        </tr>
+    `;
+
+}
+
+
+/* =========================================
    START
 ========================================= */
 
-loadCompanies();
+document.addEventListener(
+    "DOMContentLoaded",
+    loadCompanies
+);
