@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Admin — Project Laptop</title>
+
+<meta
+    name="robots"
+    content="noindex, nofollow"
+>
+
+<link rel="stylesheet" href="./style.css">
+```
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+```
+<nav class="navbar">
+
+    <a href="./index.html" class="logo">
+        PROJECT LAPTOP
+    </a>
+
+    <div class="nav-links">
+
+        <a href="./index.html">
+            Home
+        </a>
+
+        <a href="./progress.html">
+            Progress
+        </a>
+
+        <a href="./brands.html">
+            For Brands
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="page-hero">
+
+    <p class="eyebrow">
+        PRIVATE WORKSPACE
+    </p>
+
+    <h1>
+        Outreach<br>
+        Console.
+    </h1>
+
+    <p class="hero-text">
+        Generate, review and prepare collaboration emails.
+    </p>
+
+</div>
+```
+
+</header>
+
+<main>
+
+```
+<!-- COMPANY SELECTOR -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <span>01</span>
+
+        <h2>
+            Select Company
+        </h2>
+
+    </div>
+
+
+    <div class="admin-panel">
+
+        <label for="companySelect">
+            Company
+        </label>
+
+
+        <select id="companySelect">
+
+            <option value="">
+                Loading companies...
+            </option>
+
+        </select>
+
+
+        <div
+            id="companyInfo"
+            class="company-info"
+        >
+
+            Select a company to begin.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- EMAIL GENERATOR -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <span>02</span>
+
+        <h2>
+            Email Generator
+        </h2>
+
+    </div>
+
+
+    <div class="admin-panel">
+
+
+        <button
+            id="generateButton"
+            type="button"
+            disabled
+        >
+            Generate Email
+        </button>
+
+
+        <div
+            id="generatorStatus"
+            class="generator-status"
+        >
+        </div>
+
+
+        <label for="subject">
+            Subject
+        </label>
+
+
+        <input
+            id="subject"
+            type="text"
+            placeholder="Generated subject..."
+        >
+
+
+        <label for="emailBody">
+            Email
+        </label>
+
+
+        <textarea
+            id="emailBody"
+            rows="16"
+            placeholder="Generated email..."
+        ></textarea>
+
+
+        <div class="admin-actions">
+
+            <button
+                id="regenerateButton"
+                type="button"
+                disabled
+            >
+                Regenerate
+            </button>
+
+
+            <button
+                id="approveButton"
+                type="button"
+                disabled
+            >
+                Approve
+            </button>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- NOTES -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <span>03</span>
+
+        <h2>
+            Internal Notes
+        </h2>
+
+    </div>
+
+
+    <div class="admin-panel">
+
+        <div id="notes">
+            —
+        </div>
+
+    </div>
+
+</section>
+```
+
+</main>
+
+<footer>
+
+```
+<p>
+    PROJECT LAPTOP
+</p>
+
+
+<div class="footer-links">
+
+    <a href="./index.html">
+        Home
+    </a>
+
+    <a href="./progress.html">
+        Progress
+    </a>
+
+    <a href="./brands.html">
+        For Brands
+    </a>
+
+</div>
+```
+
+</footer>
+
+<script>
+
+
+const API_URL =
+    "https://script.google.com/macros/s/AKfycbw3gZNMMj9qeFEXac0_-r8hmn9Te3vsaESGtIxWgH_4dNoDGAL5wCtHAOjmdlBeBOXR/exec";
+
+
+let companies = [];
+
+let selectedCompany = null;
+
+
+
+/*
+ * ============================
+ * LOAD COMPANIES
+ * ============================
+ */
+
+
+function loadCompanies() {
+
+    const callbackName =
+        "adminCallback_" +
+        Date.now();
+
+
+    window[callbackName] =
+        function(data) {
+
+
+            try {
+
+                if (!Array.isArray(data)) {
+
+                    throw new Error(
+                        "Invalid API response."
+                    );
+
+                }
+
+
+                companies = data;
+
+
+                populateCompanies();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showGeneratorStatus(
+                    "Unable to load companies.",
+                    true
+                );
+
+            }
+
+
+            delete window[callbackName];
+
+            if (script.parentNode) {
+
+                script.parentNode.removeChild(
+                    script
+                );
+
+            }
+
+        };
+
+
+    const script =
+        document.createElement("script");
+
+
+    script.src =
+        API_URL +
+        "?callback=" +
+        callbackName +
+        "&t=" +
+        Date.now();
+
+
+    script.onerror =
+        function() {
+
+            showGeneratorStatus(
+                "Unable to connect to the API.",
+                true
+            );
+
+        };
+
+
+    document.body.appendChild(script);
+
+}
+
+
+
+/*
+ * ============================
+ * POPULATE SELECT
+ * ============================
+ */
+
+
+function populateCompanies() {
+
+    const select =
+        document.getElementById(
+            "companySelect"
+        );
+
+
+    select.innerHTML = "";
+
+
+    if (companies.length === 0) {
+
+        select.innerHTML = `
+
+            <option value="">
+                No companies found
+            </option>
+
+        `;
+
+        return;
+
+    }
+
+
+    const firstOption =
+        document.createElement("option");
+
+
+    firstOption.value = "";
+
+    firstOption.textContent =
+        "Choose a company...";
+
+
+    select.appendChild(
+        firstOption
+    );
+
+
+    companies.forEach(
+        (company, index) => {
+
+            const option =
+                document.createElement("option");
+
+
+            option.value = index;
+
+
+            option.textContent =
+                company.company +
+                " — " +
+                company.category;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+
+/*
+ * ============================
+ * COMPANY SELECTION
+ * ============================
+ */
+
+
+document
+    .getElementById("companySelect")
+    .addEventListener(
+        "change",
+        function() {
+
+
+            const index =
+                this.value;
+
+
+            if (index === "") {
+
+                selectedCompany = null;
+
+                resetGenerator();
+
+                return;
+
+            }
+
+
+            selectedCompany =
+                companies[
+                    Number(index)
+                ];
+
+
+            showCompanyInfo();
+
+
+            document
+                .getElementById(
+                    "generateButton"
+                )
+                .disabled = false;
+
+
+            document
+                .getElementById(
+                    "regenerateButton"
+                )
+                .disabled = true;
+
+
+            document
+                .getElementById(
+                    "approveButton"
+                )
+                .disabled = true;
+
+        }
+    );
+
+
+
+/*
+ * ============================
+ * SHOW COMPANY INFO
+ * ============================
+ */
+
+
+function showCompanyInfo() {
+
+    const info =
+        document.getElementById(
+            "companyInfo"
+        );
+
+
+    info.innerHTML = `
+
+        <strong>
+            ${escapeHTML(
+                selectedCompany.company || "—"
+            )}
+        </strong>
+
+        <br>
+
+        Category:
+        ${escapeHTML(
+            selectedCompany.category || "—"
+        )}
+
+        <br>
+
+        Country:
+        ${escapeHTML(
+            selectedCompany.country || "—"
+        )}
+
+        <br>
+
+        Priority:
+        ${escapeHTML(
+            selectedCompany.priority || "—"
+        )}
+
+        <br>
+
+        Status:
+        ${escapeHTML(
+            selectedCompany.status || "—"
+        )}
+
+        <br>
+
+        Contact:
+        ${escapeHTML(
+            selectedCompany.contact || "—"
+        )}
+
+        <br>
+
+        Email:
+        ${escapeHTML(
+            selectedCompany.email || "—"
+        )}
+
+    `;
+
+
+    document.getElementById(
+        "notes"
+    ).textContent =
+        selectedCompany.notes || "—";
+
+}
+
+
+
+/*
+ * ============================
+ * GENERATE EMAIL
+ * ============================
+ */
+
+
+function generateEmail() {
+
+    if (!selectedCompany) {
+
+        return;
+
+    }
+
+
+    const company =
+        selectedCompany.company || "the team";
+
+
+    const category =
+        selectedCompany.category ||
+        "gaming";
+
+
+    const country =
+        selectedCompany.country ||
+        "Global";
+
+
+    const website =
+        selectedCompany.website ||
+        "";
+
+
+    const subject =
+        `Collaboration Request — Project Laptop × ${company}`;
+
+
+    const body =
+
+`Hello ${company} team,
+
+My name is Alex, and I am currently documenting a small independent gaming project called Project Laptop.
+
+The goal is simple: I am exploring whether a small gaming creator can build a genuine collaboration with a hardware brand while publicly documenting the entire process.
+
+My current setup is focused on gaming and content creation, and I am looking to eventually upgrade to a laptop capable of handling modern gaming, recording/streaming and video production.
+
+I would love to explore whether ${company} would be interested in being part of this experiment.
+
+There is no expectation of a guaranteed collaboration. I would simply appreciate the opportunity to discuss whether there is a suitable way for us to work together.
+
+Project website:
+https://altherai.github.io/project-laptop/
+
+YouTube:
+https://www.youtube.com/@bugsbunny6251
+
+Thank you for your time and consideration.
+
+Best regards,
+Alex
+Project Laptop
+alex.altherai@gmail.com`;
+
+
+    document.getElementById(
+        "subject"
+    ).value = subject;
+
+
+    document.getElementById(
+        "emailBody"
+    ).value = body;
+
+
+    document.getElementById(
+        "regenerateButton"
+    ).disabled = false;
+
+
+    document.getElementById(
+        "approveButton"
+    ).disabled = false;
+
+
+    showGeneratorStatus(
+        "Email generated. Review it before approving.",
+        false
+    );
+
+}
+
+
+
+/*
+ * ============================
+ * BUTTONS
+ * ============================
+ */
+
+
+document
+    .getElementById(
+        "generateButton"
+    )
+    .addEventListener(
+        "click",
+        generateEmail
+    );
+
+
+document
+    .getElementById(
+        "regenerateButton"
+    )
+    .addEventListener(
+        "click",
+        generateEmail
+    );
+
+
+document
+    .getElementById(
+        "approveButton"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            showGeneratorStatus(
+                "Approval system will be connected to Apps Script next.",
+                false
+            );
+
+        }
+    );
+
+
+
+/*
+ * ============================
+ * RESET
+ * ============================
+ */
+
+
+function resetGenerator() {
+
+    document.getElementById(
+        "companyInfo"
+    ).textContent =
+        "Select a company to begin.";
+
+
+    document.getElementById(
+        "subject"
+    ).value = "";
+
+
+    document.getElementById(
+        "emailBody"
+    ).value = "";
+
+
+    document.getElementById(
+        "notes"
+    ).textContent = "—";
+
+
+    document.getElementById(
+        "generateButton"
+    ).disabled = true;
+
+
+    document.getElementById(
+        "regenerateButton"
+    ).disabled = true;
+
+
+    document.getElementById(
+        "approveButton"
+    ).disabled = true;
+
+
+    showGeneratorStatus(
+        "",
+        false
+    );
+
+}
+
+
+
+/*
+ * ============================
+ * STATUS
+ * ============================
+ */
+
+
+function showGeneratorStatus(
+    message,
+    error
+) {
+
+    const element =
+        document.getElementById(
+            "generatorStatus"
+        );
+
+
+    element.textContent =
+        message;
+
+
+    element.classList.toggle(
+        "error",
+        Boolean(error)
+    );
+
+}
+
+
+
+/*
+ * ============================
+ * ESCAPE HTML
+ * ============================
+ */
+
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+/*
+ * START
+ */
+
+
+loadCompanies();
+
+
+</script>
+
+</body>
+
+</html>
